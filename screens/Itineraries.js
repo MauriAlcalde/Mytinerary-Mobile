@@ -44,7 +44,7 @@ useEffect(()=> {
                                             </View>
                                         ))}
                                         <View style={styles.cajaTitulo}>
-                                            <Text style={styles.textoInformation}>ABOUT ITINERARY</Text>
+                                            <Text style={styles.textoInformation}>ABOUT THIS ITINERARY</Text>
                                         </View>
                                         <View style={styles.textoActividad}>
                                             <Text style={styles.userName}>{itinerary.userName}</Text>
