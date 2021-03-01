@@ -3,9 +3,9 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import {TouchableHighlight,ScrollView,Button,Text, View, Image, ImageBackground, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const fondoCities = require('../assets/fotoGrande2.jpg')
 
 const Cities =(props) => {
+    const fondoCities = require('../assets/fotoGrande2.jpg')
     const [cities, setCities] = useState([])
     useEffect(()=> {
         fetch('https://alcalde-mytinerary.herokuapp.com/api/cities')
@@ -23,17 +23,22 @@ return(
             <View style={styles.cajaContenedorCities} >
                 <ScrollView >
                     {cities.map(city => (
-                <TouchableOpacity onPress={() => props.navigation.navigate("Itineraries",{idCity: city._id, cityPic: city.src, cityName: city.name})}>
+                <TouchableOpacity key={city._id + city.name} onPress={() => props.navigation.navigate("Itineraries",{idCity: city._id, cityPic: city.src, cityName: city.name})}>
                     <View style={styles.pruebaaa} key={city._id}>                    
-                        <Text style={styles.nombreCiudad}>{city.name}</Text>        
-                        <Image style={styles.fotoCiudad} source={{uri:`${city.src}`}}/>               
+                        <Text key={city._id + city.name + city.name} style={styles.nombreCiudad}>{city.name}</Text>        
+                        <Image key={city._id + city.name} style={styles.fotoCiudad} source={{uri:`${city.src}`}}/>               
                     </View>
                 </TouchableOpacity>
                 ))}
-                </ScrollView>   
+                </ScrollView> 
+                <View style={{width:"100%",alignItems:"center"}}>
+                        <View style={styles.botoncito}>
+                            <Text style={styles.xd}  onPress={()=> props.navigation.navigate('Home')}>Back to Home</Text>
+                        </View>  
+                    </View>   
             </View>
         </ImageBackground>
-    </View>
+    </View> 
 )
 }
 const styles = StyleSheet.create({
@@ -43,6 +48,8 @@ const styles = StyleSheet.create({
         color:"rgb(253, 142, 122)",
     },
     cajaContenedorCities:{
+        alignItems:"center",
+        justifyContent:"center",
         marginTop:"-4%",
         paddingBottom:"25%"
     },
@@ -58,7 +65,8 @@ const styles = StyleSheet.create({
     nombreCiudad:{    
         marginTop:"5%",
         marginBottom:"1%",
-        color:'black',
+        color:'rgb(103, 132, 194)',
+        fontWeight:"600",
         fontSize: RFValue(20, 580),
     },
     fotoCiudad: {
@@ -70,7 +78,24 @@ const styles = StyleSheet.create({
     cajaPadreCities:{
         flex: 1,
         alignItems:'center',   
-    }
+    },
+    xd:{
+        color: 'rgb(103, 132, 194)',
+        fontWeight:"bold",
+        fontSize:20
+    },
+    botoncito:{
+        backgroundColor:'white',
+        alignItems:'center',
+        justifyContent:'center',
+        height:50,
+        marginTop:"4%",
+        marginBottom:"4%",
+        width:'50%',
+        borderRadius:15,
+        borderWidth: 3,
+        borderColor:'rgb(253, 142, 122)'
+      },
 })
 
 export default Cities

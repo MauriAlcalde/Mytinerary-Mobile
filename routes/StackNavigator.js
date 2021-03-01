@@ -1,27 +1,38 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-/* import Login from "../screens/Login"; */
 import Home from "../screens/Home";
 import Cities from "../screens/Cities";
-/* import Itineraries from "../screens/Itineraries";
-import Register from "../screens/Register"; */
-
-const StackNavigator = () => {
+import Itineraries from "../screens/Itineraries";
+import SignIn from "../screens/SignIn";
+import SignUp from "../screens/SignUp";
+import {connect} from 'react-redux'
+const StackNavigator = (props) => {
     const Stack = createStackNavigator();
+    var routes = null
+    if(props.loggedUser){
+      routes=
+      <>
+        <Stack.Screen name="Cities" component={Cities} />
+        <Stack.Screen name="Itineraries" component={Itineraries} />
+      </>
+    }
+
   return (
     <Stack.Navigator initialRouteName="" screenOptions={{
       headerShown: false
     }}>
-      {/* <Stack.Screen name="Login" component={Login} /> */}
-     
       <Stack.Screen name="Home" component={Home}/>
-      <Stack.Screen name="Cities" component={Cities} />
-      {/* <Stack.Screen name="Itineraries" component={Itineraries} />
-      <Stack.Screen name="Register" component={Register} /> */}
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      {routes}
     </Stack.Navigator>
   );
 }
 
+const mapStateToProps = state => {
+  return {
+      loggedUser: state.auth.loggedUser
+  }
+} 
 
-
-export default StackNavigator 
+export default connect(mapStateToProps)(StackNavigator);
